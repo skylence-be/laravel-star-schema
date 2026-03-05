@@ -15,7 +15,7 @@ final class FactSnapshot extends Model
 
     public function getTable(): string
     {
-        return config('star-schema.table_prefix', 'star_') . 'fact_snapshots';
+        return config('star-schema.table_prefix', 'star_').'fact_snapshots';
     }
 
     public function getConnectionName(): ?string

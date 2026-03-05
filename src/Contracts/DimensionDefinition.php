@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Skylence\StarSchema\Contracts;
 
-use Illuminate\Database\Eloquent\Builder;
-
 /**
  * Defines a dimension table in the star schema.
  *

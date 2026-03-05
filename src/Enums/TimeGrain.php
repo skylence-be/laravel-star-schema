@@ -19,6 +19,7 @@ enum TimeGrain: string
     {
         return match ($driver) {
             'pgsql' => $this->pgsqlTrunc($column),
+            'sqlite' => $this->sqliteTrunc($column),
             default => $this->mysqlTrunc($column),
         };
     }
@@ -42,6 +43,17 @@ enum TimeGrain: string
             self::Monthly => "DATE_TRUNC('month', {$column})",
             self::Quarterly => "DATE_TRUNC('quarter', {$column})",
             self::Yearly => "DATE_TRUNC('year', {$column})",
+        };
+    }
+
+    private function sqliteTrunc(string $column): string
+    {
+        return match ($this) {
+            self::Daily => "DATE({$column})",
+            self::Weekly => "DATE({$column}, 'weekday 0', '-6 days')",
+            self::Monthly => "DATE({$column}, 'start of month')",
+            self::Quarterly => "DATE({$column}, 'start of month', '-' || ((CAST(STRFTIME('%m', {$column}) AS INTEGER) - 1) % 3) || ' months')",
+            self::Yearly => "DATE({$column}, 'start of year')",
         };
     }
 }

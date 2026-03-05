@@ -6,7 +6,6 @@ namespace Skylence\StarSchema\Actions;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
-use Skylence\StarSchema\Contracts\DimensionDefinition;
 use Skylence\StarSchema\Contracts\FactDefinition;
 use Skylence\StarSchema\Enums\AggregationType;
 use Skylence\StarSchema\Enums\TimeGrain;
@@ -29,11 +28,9 @@ final class QueryFact
         array $dimensionFilters = [],
         array $groupByDimensions = [],
     ): Builder {
-        $connection = config('star-schema.connection');
-        $driver = DB::connection($connection)->getDriverName();
         $dateColumn = $fact->dateColumn();
-
         $query = $fact->query();
+        $driver = $query->getConnection()->getDriverName();
 
         if ($from !== null) {
             $query->where($dateColumn, '>=', $from);
@@ -67,7 +64,7 @@ final class QueryFact
 
         // Measure aggregations
         foreach ($measures as $measure => $aggregation) {
-            $selects[] = DB::raw($aggregation->expression($measure) . " as {$measure}");
+            $selects[] = DB::raw($aggregation->expression($measure)." as {$measure}");
         }
 
         return $query->select($selects)->groupBy($groups);

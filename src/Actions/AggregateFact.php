@@ -29,21 +29,21 @@ final class AggregateFact
         $measures = $fact->measures();
         $aggregations ??= array_fill_keys(array_keys($measures), AggregationType::Sum);
         $dateColumn = $fact->dateColumn();
-        $connection = config('star-schema.connection');
-        $driver = DB::connection($connection)->getDriverName();
 
         $query = $fact->query()
             ->whereBetween($dateColumn, [$from, $to]);
 
+        $driver = $query->getConnection()->getDriverName();
+
         $selectRaw = [];
-        $selectRaw[] = $grain->dateTruncExpression($dateColumn, $driver) . ' as period_start';
+        $selectRaw[] = $grain->dateTruncExpression($dateColumn, $driver).' as period_start';
 
         foreach ($fact->dimensions() as $fk => $dimensionClass) {
             $selectRaw[] = $fk;
         }
 
         foreach ($aggregations as $measure => $type) {
-            $selectRaw[] = $type->expression($measure) . " as agg_{$measure}";
+            $selectRaw[] = $type->expression($measure)." as agg_{$measure}";
         }
 
         $groupBy = [$grain->dateTruncExpression($dateColumn, $driver)];
@@ -56,13 +56,15 @@ final class AggregateFact
             ->groupByRaw(implode(', ', $groupBy))
             ->get();
 
-        $snapshotTable = (new FactSnapshot)->getTable();
+        $snapshot = new FactSnapshot;
+        $snapshotTable = $snapshot->getTable();
+        $snapshotConnection = $snapshot->getConnectionName();
 
         // Clear existing snapshots for this fact/grain/period
-        DB::connection($connection)->table($snapshotTable)
+        DB::connection($snapshotConnection)->table($snapshotTable)
             ->where('fact_name', $fact->name())
             ->where('grain', $grain->value)
-            ->whereBetween('period_start', [$from, $to])
+            ->whereBetween('period_start', [$from->toDateString(), $to->toDateString()])
             ->delete();
 
         $rows = [];
@@ -81,7 +83,7 @@ final class AggregateFact
                 'fact_name' => $fact->name(),
                 'grain' => $grain->value,
                 'period_start' => $row->period_start,
-                'period_end' => $row->period_start, // Filled by grain logic below
+                'period_end' => $row->period_start,
                 'measures' => json_encode($measuresData),
                 'dimensions' => json_encode($dimensionsData),
                 'aggregated_at' => now(),
@@ -89,7 +91,7 @@ final class AggregateFact
         }
 
         foreach (array_chunk($rows, 500) as $chunk) {
-            DB::connection($connection)->table($snapshotTable)->insert($chunk);
+            DB::connection($snapshotConnection)->table($snapshotTable)->insert($chunk);
         }
 
         return count($rows);

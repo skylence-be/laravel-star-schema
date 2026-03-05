@@ -18,12 +18,13 @@ final class StarSchemaServiceProvider extends PackageServiceProvider
     public function configurePackage(Package $package): void
     {
         $package
-            ->name(static::$name)
+            ->name(self::$name)
             ->hasConfigFile('star-schema')
             ->hasMigrations([
                 'create_dim_date_table',
                 'create_fact_snapshots_table',
             ])
+            ->runsMigrations()
             ->hasCommands([
                 SeedDateDimensionCommand::class,
                 AggregateFactsCommand::class,

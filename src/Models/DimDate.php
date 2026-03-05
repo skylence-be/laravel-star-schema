@@ -20,7 +20,7 @@ final class DimDate extends Model
 
     public function getTable(): string
     {
-        return config('star-schema.table_prefix', 'star_') . 'dim_date';
+        return config('star-schema.table_prefix', 'star_').'dim_date';
     }
 
     public function getConnectionName(): ?string
