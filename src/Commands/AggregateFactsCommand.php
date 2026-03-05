@@ -14,7 +14,7 @@ final class AggregateFactsCommand extends Command
 {
     protected $signature = 'star-schema:aggregate
         {--fact= : Specific fact name to aggregate (all if omitted)}
-        {--grain=daily : Time grain (daily, weekly, monthly, quarterly, yearly)}
+        {--grain= : Time grain (daily, weekly, monthly, quarterly, yearly)}
         {--from= : Start date (defaults to yesterday)}
         {--to= : End date (defaults to yesterday)}';
 
@@ -22,7 +22,10 @@ final class AggregateFactsCommand extends Command
 
     public function handle(StarSchemaRegistry $registry, AggregateFact $action): int
     {
-        $grain = TimeGrain::from($this->option('grain'));
+        $grainValue = $this->option('grain')
+            ?? config('star-schema.aggregation.default_grain', 'daily');
+        $grain = TimeGrain::from($grainValue);
+
         $from = CarbonImmutable::parse($this->option('from') ?? 'yesterday');
         $to = CarbonImmutable::parse($this->option('to') ?? 'yesterday');
 

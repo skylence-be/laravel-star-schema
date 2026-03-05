@@ -90,7 +90,9 @@ final class AggregateFact
             ];
         }
 
-        foreach (array_chunk($rows, 500) as $chunk) {
+        $chunkSize = (int) config('star-schema.aggregation.chunk_size', 500);
+
+        foreach (array_chunk($rows, $chunkSize) as $chunk) {
             DB::connection($snapshotConnection)->table($snapshotTable)->insert($chunk);
         }
 

@@ -19,9 +19,16 @@ final class SeedDateDimension
         $startYear ??= (int) config('star-schema.date_dimension.start_year', 2020);
         $endYear ??= (int) config('star-schema.date_dimension.end_year', 2035);
         $fiscalYearStartMonth ??= (int) config('star-schema.date_dimension.fiscal_year_start_month', 1);
+        $weekStartDay = (int) config('star-schema.date_dimension.week_start_day', 1);
+        $locale = config('star-schema.date_dimension.locale');
+        $holidays = $this->resolveHolidays($startYear, $endYear);
 
         $start = CarbonImmutable::createFromDate($startYear, 1, 1);
         $end = CarbonImmutable::createFromDate($endYear, 12, 31);
+
+        if ($locale !== null) {
+            $start = $start->locale($locale);
+        }
 
         $period = CarbonPeriod::create($start, $end);
         $rows = [];
@@ -30,22 +37,30 @@ final class SeedDateDimension
             /** @var CarbonImmutable $date */
             $date = CarbonImmutable::instance($date);
 
+            if ($locale !== null) {
+                $date = $date->locale($locale);
+            }
+
+            $dateString = $date->toDateString();
+
             $rows[] = [
                 'date_key' => (int) $date->format('Ymd'),
-                'date' => $date->toDateString(),
+                'date' => $dateString,
                 'day_of_week' => $date->dayOfWeek,
                 'day_of_month' => $date->day,
                 'day_of_year' => $date->dayOfYear,
-                'day_name' => $date->format('l'),
-                'week_of_year' => $date->isoWeek(),
+                'day_name' => $date->isoFormat('dddd'),
+                'week_of_year' => $weekStartDay === 0
+                    ? (int) $date->format('W') // Sunday-based
+                    : $date->isoWeek(),        // Monday-based (ISO)
                 'month' => $date->month,
-                'month_name' => $date->format('F'),
+                'month_name' => $date->isoFormat('MMMM'),
                 'quarter' => $date->quarter,
                 'year' => $date->year,
                 'fiscal_quarter' => $this->fiscalQuarter($date, $fiscalYearStartMonth),
                 'fiscal_year' => $this->fiscalYear($date, $fiscalYearStartMonth),
                 'is_weekend' => $date->isWeekend(),
-                'is_holiday' => false,
+                'is_holiday' => isset($holidays[$dateString]),
             ];
         }
 
@@ -59,6 +74,35 @@ final class SeedDateDimension
         }
 
         return count($rows);
+    }
+
+    /**
+     * Resolve holidays from config — supports arrays and callables.
+     *
+     * @return array<string, true> date string => true (for fast lookup)
+     */
+    private function resolveHolidays(int $startYear, int $endYear): array
+    {
+        $config = config('star-schema.date_dimension.holidays', []);
+
+        if ($config === [] || $config === null) {
+            return [];
+        }
+
+        // Callable: invoked per year, must return array of date strings
+        if (is_callable($config)) {
+            $dates = [];
+            for ($year = $startYear; $year <= $endYear; $year++) {
+                foreach ($config($year) as $date) {
+                    $dates[$date] = true;
+                }
+            }
+
+            return $dates;
+        }
+
+        // Plain array of date strings
+        return array_fill_keys($config, true);
     }
 
     private function fiscalQuarter(CarbonImmutable $date, int $fiscalStartMonth): int

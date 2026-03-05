@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Skylence\StarSchema;
 
 use Skylence\StarSchema\Commands\AggregateFactsCommand;
+use Skylence\StarSchema\Commands\PruneSnapshotsCommand;
 use Skylence\StarSchema\Commands\SeedDateDimensionCommand;
 use Skylence\StarSchema\Commands\SyncDimensionsCommand;
 use Skylence\StarSchema\Services\StarSchemaRegistry;
@@ -29,6 +30,7 @@ final class StarSchemaServiceProvider extends PackageServiceProvider
                 SeedDateDimensionCommand::class,
                 AggregateFactsCommand::class,
                 SyncDimensionsCommand::class,
+                PruneSnapshotsCommand::class,
             ]);
     }
 
