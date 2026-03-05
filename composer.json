@@ -1,0 +1,68 @@
+{
+    "name": "skylence/laravel-star-schema",
+    "description": "Star schema dimensional modeling for Laravel. Define fact tables, dimension tables, and aggregate data with scheduled jobs.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "star-schema",
+        "dimensional-modeling",
+        "analytics",
+        "data-warehouse",
+        "facts",
+        "dimensions",
+        "olap"
+    ],
+    "authors": [
+        {
+            "name": "Jonas Vanderhaegen",
+            "email": "jonas.vanderhaegen@skylence.be",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "illuminate/contracts": "^11.0||^12.0",
+        "illuminate/database": "^11.0||^12.0",
+        "illuminate/support": "^11.0||^12.0",
+        "spatie/laravel-package-tools": "^1.16"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.0",
+        "orchestra/testbench": "^9.0||^10.0",
+        "pestphp/pest": "^3.0||^4.0",
+        "pestphp/pest-plugin-laravel": "^3.0||^4.0",
+        "phpstan/phpstan": "^2.1",
+        "rector/rector": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Skylence\\StarSchema\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Skylence\\StarSchema\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "format": "vendor/bin/pint",
+        "analyse": "vendor/bin/phpstan analyse",
+        "rector": "vendor/bin/rector process"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Skylence\\StarSchema\\StarSchemaServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
