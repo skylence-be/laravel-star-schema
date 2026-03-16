@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Skylence\StarSchema\Enums;
 
+use Skylence\StarSchema\StarQuery;
+
 enum TimeGrain: string
 {
     case Daily = 'daily';
@@ -17,43 +19,6 @@ enum TimeGrain: string
      */
     public function dateTruncExpression(string $column, string $driver = 'mysql'): string
     {
-        return match ($driver) {
-            'pgsql' => $this->pgsqlTrunc($column),
-            'sqlite' => $this->sqliteTrunc($column),
-            default => $this->mysqlTrunc($column),
-        };
-    }
-
-    private function mysqlTrunc(string $column): string
-    {
-        return match ($this) {
-            self::Daily => "DATE({$column})",
-            self::Weekly => "DATE(DATE_SUB({$column}, INTERVAL WEEKDAY({$column}) DAY))",
-            self::Monthly => "DATE_FORMAT({$column}, '%Y-%m-01')",
-            self::Quarterly => "CONCAT(YEAR({$column}), '-', LPAD((QUARTER({$column}) - 1) * 3 + 1, 2, '0'), '-01')",
-            self::Yearly => "DATE_FORMAT({$column}, '%Y-01-01')",
-        };
-    }
-
-    private function pgsqlTrunc(string $column): string
-    {
-        return match ($this) {
-            self::Daily => "DATE_TRUNC('day', {$column})",
-            self::Weekly => "DATE_TRUNC('week', {$column})",
-            self::Monthly => "DATE_TRUNC('month', {$column})",
-            self::Quarterly => "DATE_TRUNC('quarter', {$column})",
-            self::Yearly => "DATE_TRUNC('year', {$column})",
-        };
-    }
-
-    private function sqliteTrunc(string $column): string
-    {
-        return match ($this) {
-            self::Daily => "DATE({$column})",
-            self::Weekly => "DATE({$column}, 'weekday 0', '-6 days')",
-            self::Monthly => "DATE({$column}, 'start of month')",
-            self::Quarterly => "DATE({$column}, 'start of month', '-' || ((CAST(STRFTIME('%m', {$column}) AS INTEGER) - 1) % 3) || ' months')",
-            self::Yearly => "DATE({$column}, 'start of year')",
-        };
+        return StarQuery::adapterFor($driver)->truncate($column, $this);
     }
 }

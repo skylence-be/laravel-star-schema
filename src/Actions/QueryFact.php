@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Skylence\StarSchema\Contracts\FactDefinition;
 use Skylence\StarSchema\Enums\AggregationType;
 use Skylence\StarSchema\Enums\TimeGrain;
+use Skylence\StarSchema\StarQuery;
 
 final class QueryFact
 {
@@ -30,7 +31,7 @@ final class QueryFact
     ): Builder {
         $dateColumn = $fact->dateColumn();
         $query = $fact->query();
-        $driver = $query->getConnection()->getDriverName();
+        $adapter = StarQuery::adapterFor($query->getConnection()->getDriverName());
 
         if ($from !== null) {
             $query->where($dateColumn, '>=', $from);
@@ -52,7 +53,7 @@ final class QueryFact
         $groups = [];
 
         // Time grain grouping
-        $truncExpr = $grain->dateTruncExpression($dateColumn, $driver);
+        $truncExpr = $adapter->truncate($dateColumn, $grain);
         $selects[] = DB::raw("{$truncExpr} as period");
         $groups[] = DB::raw($truncExpr);
 

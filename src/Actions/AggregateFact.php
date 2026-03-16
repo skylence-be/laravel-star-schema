@@ -10,6 +10,7 @@ use Skylence\StarSchema\Contracts\FactDefinition;
 use Skylence\StarSchema\Enums\AggregationType;
 use Skylence\StarSchema\Enums\TimeGrain;
 use Skylence\StarSchema\Models\FactSnapshot;
+use Skylence\StarSchema\StarQuery;
 
 final class AggregateFact
 {
@@ -33,10 +34,10 @@ final class AggregateFact
         $query = $fact->query()
             ->whereBetween($dateColumn, [$from, $to]);
 
-        $driver = $query->getConnection()->getDriverName();
+        $adapter = StarQuery::adapterFor($query->getConnection()->getDriverName());
 
         $selectRaw = [];
-        $selectRaw[] = $grain->dateTruncExpression($dateColumn, $driver).' as period_start';
+        $selectRaw[] = $adapter->truncate($dateColumn, $grain).' as period_start';
 
         foreach ($fact->dimensions() as $fk => $dimensionClass) {
             $selectRaw[] = $fk;
@@ -46,7 +47,7 @@ final class AggregateFact
             $selectRaw[] = $type->expression($measure)." as agg_{$measure}";
         }
 
-        $groupBy = [$grain->dateTruncExpression($dateColumn, $driver)];
+        $groupBy = [$adapter->truncate($dateColumn, $grain)];
         foreach ($fact->dimensions() as $fk => $dimensionClass) {
             $groupBy[] = $fk;
         }
