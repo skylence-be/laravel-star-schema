@@ -17,7 +17,7 @@ final class PruneSnapshotsCommand extends Command
     {
         $deleted = $action->execute();
 
-        $this->info("Pruned {$deleted} expired snapshot rows.");
+        $this->info(sprintf('Pruned %d expired snapshot rows.', $deleted));
 
         return self::SUCCESS;
     }

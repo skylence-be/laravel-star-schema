@@ -1,0 +1,397 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$period_start\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Actions/AggregateFact.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\ConnectionInterface\:\:getDriverName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Actions/AggregateFact.php
+
+		-
+			message: '#^Cannot cast mixed to int\.$#'
+			identifier: cast.int
+			count: 1
+			path: src/Actions/AggregateFact.php
+
+		-
+			message: '#^Parameter \#1 \$driver of static method Skylence\\StarSchema\\StarQuery\:\:adapterFor\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Actions/AggregateFact.php
+
+		-
+			message: '#^Parameter \#2 \$length of function array_chunk expects int\<1, max\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Actions/AggregateFact.php
+
+		-
+			message: '#^Cannot cast mixed to int\.$#'
+			identifier: cast.int
+			count: 1
+			path: src/Actions/PruneSnapshots.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\ConnectionInterface\:\:getDriverName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Actions/QueryFact.php
+
+		-
+			message: '#^Method Skylence\\StarSchema\\Actions\\QueryFact\:\:execute\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Actions/QueryFact.php
+
+		-
+			message: '#^Parameter \#1 \$driver of static method Skylence\\StarSchema\\StarQuery\:\:adapterFor\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Actions/QueryFact.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Cannot access property \$day on Carbon\\CarbonImmutable\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Cannot access property \$dayOfWeek on Carbon\\CarbonImmutable\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Cannot access property \$dayOfYear on Carbon\\CarbonImmutable\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Cannot access property \$month on Carbon\\CarbonImmutable\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Cannot access property \$quarter on Carbon\\CarbonImmutable\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Cannot access property \$year on Carbon\\CarbonImmutable\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Cannot call method format\(\) on Carbon\\CarbonImmutable\|string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Cannot call method isWeekend\(\) on Carbon\\CarbonImmutable\|string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Cannot call method isoFormat\(\) on Carbon\\CarbonImmutable\|string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Cannot call method isoWeek\(\) on Carbon\\CarbonImmutable\|string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Cannot call method toDateString\(\) on Carbon\\CarbonImmutable\|string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Cannot cast mixed to int\.$#'
+			identifier: cast.int
+			count: 4
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Method Skylence\\StarSchema\\Actions\\SeedDateDimension\:\:resolveHolidays\(\) should return array\<string, true\> but returns array\<mixed, true\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Method Skylence\\StarSchema\\Actions\\SeedDateDimension\:\:resolveHolidays\(\) should return array\<string, true\> but returns array\<true\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Parameter \#1 \$date of method Skylence\\StarSchema\\Actions\\SeedDateDimension\:\:fiscalQuarter\(\) expects Carbon\\CarbonImmutable, Carbon\\CarbonImmutable\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Parameter \#1 \$date of method Skylence\\StarSchema\\Actions\\SeedDateDimension\:\:fiscalYear\(\) expects Carbon\\CarbonImmutable, Carbon\\CarbonImmutable\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Parameter \#1 \$date of static method Carbon\\CarbonImmutable\:\:instance\(\) expects DateTimeInterface, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Parameter \#1 \$keys of function array_fill_keys expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Parameter \#1 \$locale of method Carbon\\Traits\\Date\:\:locale\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Parameter \#1 \$name of static method Illuminate\\Database\\DatabaseManager\:\:connection\(\) expects string\|UnitEnum\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Possibly invalid array key type mixed\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 1
+			path: src/Actions/SeedDateDimension.php
+
+		-
+			message: '#^Call to an undefined method object\:\:newQuery\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Actions/SyncDimension.php
+
+		-
+			message: '#^Cannot call method all\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Actions/SyncDimension.php
+
+		-
+			message: '#^Cannot call method chunkById\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Actions/SyncDimension.php
+
+		-
+			message: '#^Cannot call method map\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Actions/SyncDimension.php
+
+		-
+			message: '#^Cannot call method only\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Actions/SyncDimension.php
+
+		-
+			message: '#^Cannot call method select\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Actions/SyncDimension.php
+
+		-
+			message: '#^Parameter \#1 \$name of static method Illuminate\\Database\\DatabaseManager\:\:connection\(\) expects string\|UnitEnum\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Actions/SyncDimension.php
+
+		-
+			message: '#^Parameter \#1 \$value of function collect expects Illuminate\\Contracts\\Support\\Arrayable\<\(int\|string\), mixed\>\|iterable\<\(int\|string\), mixed\>\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Actions/SyncDimension.php
+
+		-
+			message: '#^Parameter \#1 \$value of function count expects array\|Countable, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Actions/SyncDimension.php
+
+		-
+			message: '#^Parameter \#1 \$values of method Illuminate\\Database\\Query\\Builder\:\:upsert\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Actions/SyncDimension.php
+
+		-
+			message: '#^Unable to resolve the template type TKey in call to function collect$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/Actions/SyncDimension.php
+
+		-
+			message: '#^Unable to resolve the template type TValue in call to function collect$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/Actions/SyncDimension.php
+
+		-
+			message: '#^Parameter \#1 \$name of method Skylence\\StarSchema\\Services\\StarSchemaRegistry\:\:fact\(\) expects string, array\|bool\|float\|int\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Commands/AggregateFactsCommand.php
+
+		-
+			message: '#^Parameter \#1 \$time of static method Carbon\\CarbonImmutable\:\:parse\(\) expects Carbon\\Month\|Carbon\\WeekDay\|DateTimeInterface\|float\|int\|string\|null, array\|bool\|float\|int\|string given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Commands/AggregateFactsCommand.php
+
+		-
+			message: '#^Parameter \#1 \$value of static method Skylence\\StarSchema\\Enums\\TimeGrain\:\:from\(\) expects int\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Commands/AggregateFactsCommand.php
+
+		-
+			message: '#^Parameter \#1 \$name of method Skylence\\StarSchema\\Services\\StarSchemaRegistry\:\:dimension\(\) expects string, array\|bool\|float\|int\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Commands/SyncDimensionsCommand.php
+
+		-
+			message: '#^Trait Skylence\\StarSchema\\Concerns\\DefinesDimension is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: src/Concerns/DefinesDimension.php
+
+		-
+			message: '#^Trait Skylence\\StarSchema\\Concerns\\DefinesFact is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: src/Concerns/DefinesFact.php
+
+		-
+			message: '#^Method Skylence\\StarSchema\\Contracts\\FactDefinition\:\:query\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Contracts/FactDefinition.php
+
+		-
+			message: '#^Binary operation "\." between mixed and ''dim_date'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Models/DimDate.php
+
+		-
+			message: '#^Method Skylence\\StarSchema\\Models\\DimDate\:\:getConnectionName\(\) should return string\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Models/DimDate.php
+
+		-
+			message: '#^Binary operation "\." between mixed and ''fact_snapshots'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Models/FactSnapshot.php
+
+		-
+			message: '#^Method Skylence\\StarSchema\\Models\\FactSnapshot\:\:getConnectionName\(\) should return string\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Models/FactSnapshot.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$period\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/StarQuery.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\ConnectionInterface\:\:getDriverName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/StarQuery.php
+
+		-
+			message: '#^Method Skylence\\StarSchema\\StarQuery\:\:scalar\(\) should return float\|int but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/StarQuery.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Support\\Collection\<\(int\|string\),mixed\>\:\:map\(\) expects callable\(mixed, int\|string\)\: Skylence\\StarSchema\\TrendValue, Closure\(Carbon\\CarbonInterface\)\: Skylence\\StarSchema\\TrendValue given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/StarQuery.php
+
+		-
+			message: '#^Parameter \#1 \$driver of static method Skylence\\StarSchema\\StarQuery\:\:adapterFor\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/StarQuery.php
+
+		-
+			message: '#^Parameter \$date of class Skylence\\StarSchema\\TrendValue constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/StarQuery.php
+
+		-
+			message: '#^Parameter \$value of class Skylence\\StarSchema\\TrendValue constructor expects float\|int, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/StarQuery.php
+
+		-
+			message: '#^Possibly invalid array key type mixed\.$#'
+			identifier: array.invalidKey
+			count: 1
+			path: src/StarQuery.php
+
+		-
+			message: '#^Unable to resolve the template type TKey in call to function collect$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/StarQuery.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 2
+			path: src/StarSchemaServiceProvider.php
+
+		-
+			message: '#^Parameter \#1 \$dimension of method Skylence\\StarSchema\\Services\\StarSchemaRegistry\:\:registerDimension\(\) expects Skylence\\StarSchema\\Contracts\\DimensionDefinition, object given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/StarSchemaServiceProvider.php
+
+		-
+			message: '#^Parameter \#1 \$fact of method Skylence\\StarSchema\\Services\\StarSchemaRegistry\:\:registerFact\(\) expects Skylence\\StarSchema\\Contracts\\FactDefinition, object given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/StarSchemaServiceProvider.php

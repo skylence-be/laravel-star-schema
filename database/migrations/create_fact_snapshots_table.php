@@ -13,7 +13,7 @@ return new class extends Migration
         $prefix = config('star-schema.table_prefix', 'star_');
         $connection = config('star-schema.connection');
 
-        Schema::connection($connection)->create($prefix . 'fact_snapshots', function (Blueprint $table): void {
+        Schema::connection($connection)->create($prefix.'fact_snapshots', function (Blueprint $table): void {
             $table->id();
             $table->string('fact_name');
             $table->string('grain', 20);
@@ -33,6 +33,6 @@ return new class extends Migration
         $prefix = config('star-schema.table_prefix', 'star_');
         $connection = config('star-schema.connection');
 
-        Schema::connection($connection)->dropIfExists($prefix . 'fact_snapshots');
+        Schema::connection($connection)->dropIfExists($prefix.'fact_snapshots');
     }
 };

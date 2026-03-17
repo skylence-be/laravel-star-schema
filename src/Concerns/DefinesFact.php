@@ -10,13 +10,13 @@ namespace Skylence\StarSchema\Concerns;
  */
 trait DefinesFact
 {
-    public function factDateColumn(): string
-    {
-        return 'created_at';
-    }
-
     /**
      * @return array<string, string> column => label
      */
     abstract public function factMeasures(): array;
+
+    public function factDateColumn(): string
+    {
+        return 'created_at';
+    }
 }

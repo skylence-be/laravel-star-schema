@@ -23,7 +23,7 @@ final class PruneSnapshots
         $totalDeleted = 0;
 
         foreach (TimeGrain::cases() as $grain) {
-            $days = config("star-schema.retention.{$grain->value}");
+            $days = config('star-schema.retention.'.$grain->value);
 
             if ($days === null) {
                 continue;

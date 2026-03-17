@@ -38,11 +38,11 @@ final class AggregateFactsCommand extends Command
 
         foreach ($facts as $fact) {
             $count = $action->execute($fact, $grain, $from, $to);
-            $this->info("Aggregated {$count} rows for '{$fact->name()}' ({$grain->value}).");
+            $this->info(sprintf("Aggregated %d rows for '%s' (%s).", $count, $fact->name(), $grain->value));
             $totalRows += $count;
         }
 
-        $this->info("Total: {$totalRows} snapshot rows created.");
+        $this->info(sprintf('Total: %d snapshot rows created.', $totalRows));
 
         return self::SUCCESS;
     }

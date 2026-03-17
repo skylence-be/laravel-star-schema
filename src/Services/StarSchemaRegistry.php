@@ -28,12 +28,12 @@ final class StarSchemaRegistry
 
     public function fact(string $name): FactDefinition
     {
-        return $this->facts[$name] ?? throw new InvalidArgumentException("Fact '{$name}' is not registered.");
+        return $this->facts[$name] ?? throw new InvalidArgumentException(sprintf("Fact '%s' is not registered.", $name));
     }
 
     public function dimension(string $name): DimensionDefinition
     {
-        return $this->dimensions[$name] ?? throw new InvalidArgumentException("Dimension '{$name}' is not registered.");
+        return $this->dimensions[$name] ?? throw new InvalidArgumentException(sprintf("Dimension '%s' is not registered.", $name));
     }
 
     /** @return array<string, FactDefinition> */

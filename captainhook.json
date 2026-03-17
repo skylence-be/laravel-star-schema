@@ -1,0 +1,94 @@
+{
+    "$schema": "https://raw.githubusercontent.com/captainhookphp/captainhook/master/captainhook.schema.json",
+    "config": {
+        "fail-on-first-error": false,
+        "ansi-colors": true,
+        "includes": [],
+        "run-exec": "vendor/bin/captainhook",
+        "git-directory": ".git"
+    },
+    "pre-commit": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "FILES=$(git diff --cached --name-only --diff-filter=ACMR -- '*.php'); [ -z \"$FILES\" ] && exit 0; echo \"$FILES\" | xargs vendor/bin/rector --dry-run",
+                "options": {
+                    "label": "Running Rector on staged files..."
+                },
+                "conditions": [
+                    {
+                        "exec": "\\CaptainHook\\App\\Hook\\Condition\\FileStaged\\OfType",
+                        "args": ["php"]
+                    }
+                ]
+            },
+            {
+                "action": "FILES=$(git diff --cached --name-only --diff-filter=ACMR -- '*.php'); [ -z \"$FILES\" ] && exit 0; echo \"$FILES\" | xargs vendor/bin/pint --test",
+                "options": {
+                    "label": "Running Pint on staged files..."
+                },
+                "conditions": [
+                    {
+                        "exec": "\\CaptainHook\\App\\Hook\\Condition\\FileStaged\\OfType",
+                        "args": ["php"]
+                    }
+                ]
+            }
+        ]
+    },
+    "commit-msg": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "\\CaptainHook\\App\\Hook\\Message\\Action\\Regex",
+                "options": {
+                    "regex": "/(^(feat|fix|docs|style|refactor|test|chore|build|ci|perf|revert)(\\(.+\\))?:\\s.{1,}|(Merge|Initial commit))/",
+                    "error": "Commit message must follow conventional commits format: type(scope): description"
+                }
+            }
+        ]
+    },
+    "pre-push": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "FILES=$(git diff --name-only --diff-filter=ACMR origin/main...HEAD -- '*.php' 2>/dev/null); [ -z \"$FILES\" ] && exit 0; echo \"$FILES\" | xargs vendor/bin/rector --dry-run",
+                "options": {
+                    "label": "Checking Rector on changed files..."
+                }
+            },
+            {
+                "action": "FILES=$(git diff --name-only --diff-filter=ACMR origin/main...HEAD -- '*.php' 2>/dev/null); [ -z \"$FILES\" ] && exit 0; echo \"$FILES\" | xargs vendor/bin/pint --test",
+                "options": {
+                    "label": "Checking code style on changed files..."
+                }
+            },
+            {
+                "action": "composer test:types",
+                "options": {
+                    "label": "Running PHPStan..."
+                }
+            }
+        ]
+    },
+    "prepare-commit-msg": {
+        "enabled": false,
+        "actions": []
+    },
+    "post-commit": {
+        "enabled": false,
+        "actions": []
+    },
+    "post-merge": {
+        "enabled": false,
+        "actions": []
+    },
+    "post-checkout": {
+        "enabled": false,
+        "actions": []
+    },
+    "post-rewrite": {
+        "enabled": false,
+        "actions": []
+    }
+}

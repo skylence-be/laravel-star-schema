@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 
 final class Order extends Model
 {
+    public $timestamps = false;
+
     protected $table = 'orders';
 
     protected $guarded = [];
-
-    public $timestamps = false;
 }

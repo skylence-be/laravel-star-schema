@@ -54,7 +54,7 @@ final class QueryFact
 
         // Time grain grouping
         $truncExpr = $adapter->truncate($dateColumn, $grain);
-        $selects[] = DB::raw("{$truncExpr} as period");
+        $selects[] = DB::raw($truncExpr.' as period');
         $groups[] = DB::raw($truncExpr);
 
         // Dimension grouping
@@ -65,7 +65,7 @@ final class QueryFact
 
         // Measure aggregations
         foreach ($measures as $measure => $aggregation) {
-            $selects[] = DB::raw($aggregation->expression($measure)." as {$measure}");
+            $selects[] = DB::raw($aggregation->expression($measure).(' as '.$measure));
         }
 
         return $query->select($selects)->groupBy($groups);

@@ -24,7 +24,7 @@ final class SyncDimensionsCommand extends Command
 
         foreach ($dimensions as $dimension) {
             $count = $action->execute($dimension);
-            $this->info("Synced {$count} rows for dimension '{$dimension->name()}'.");
+            $this->info(sprintf("Synced %d rows for dimension '%s'.", $count, $dimension->name()));
         }
 
         return self::SUCCESS;

@@ -13,7 +13,7 @@ return new class extends Migration
         $prefix = config('star-schema.table_prefix', 'star_');
         $connection = config('star-schema.connection');
 
-        Schema::connection($connection)->create($prefix . 'dim_date', function (Blueprint $table): void {
+        Schema::connection($connection)->create($prefix.'dim_date', function (Blueprint $table): void {
             $table->integer('date_key')->primary(); // YYYYMMDD format
             $table->date('date')->unique();
             $table->tinyInteger('day_of_week');
@@ -41,6 +41,6 @@ return new class extends Migration
         $prefix = config('star-schema.table_prefix', 'star_');
         $connection = config('star-schema.connection');
 
-        Schema::connection($connection)->dropIfExists($prefix . 'dim_date');
+        Schema::connection($connection)->dropIfExists($prefix.'dim_date');
     }
 };

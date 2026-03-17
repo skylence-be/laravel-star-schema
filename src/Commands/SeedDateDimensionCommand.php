@@ -24,7 +24,7 @@ final class SeedDateDimensionCommand extends Command
 
         $count = $action->execute($startYear, $endYear, $fiscalStart);
 
-        $this->info("Seeded {$count} date dimension rows.");
+        $this->info(sprintf('Seeded %d date dimension rows.', $count));
 
         return self::SUCCESS;
     }

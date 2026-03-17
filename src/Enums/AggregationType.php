@@ -18,11 +18,11 @@ enum AggregationType: string
     public function expression(string $column): string
     {
         return match ($this) {
-            self::Sum => "SUM({$column})",
-            self::Avg => "AVG({$column})",
-            self::Count => "COUNT({$column})",
-            self::Min => "MIN({$column})",
-            self::Max => "MAX({$column})",
+            self::Sum => sprintf('SUM(%s)', $column),
+            self::Avg => sprintf('AVG(%s)', $column),
+            self::Count => sprintf('COUNT(%s)', $column),
+            self::Min => sprintf('MIN(%s)', $column),
+            self::Max => sprintf('MAX(%s)', $column),
         };
     }
 }

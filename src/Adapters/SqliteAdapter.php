@@ -11,11 +11,11 @@ final class SqliteAdapter implements DateAdapter
     public function truncate(string $column, TimeGrain $grain): string
     {
         return match ($grain) {
-            TimeGrain::Daily => "DATE({$column})",
-            TimeGrain::Weekly => "DATE({$column}, 'weekday 0', '-6 days')",
-            TimeGrain::Monthly => "DATE({$column}, 'start of month')",
-            TimeGrain::Quarterly => "DATE({$column}, 'start of month', '-' || ((CAST(STRFTIME('%m', {$column}) AS INTEGER) - 1) % 3) || ' months')",
-            TimeGrain::Yearly => "DATE({$column}, 'start of year')",
+            TimeGrain::Daily => sprintf('DATE(%s)', $column),
+            TimeGrain::Weekly => sprintf("DATE(%s, 'weekday 0', '-6 days')", $column),
+            TimeGrain::Monthly => sprintf("DATE(%s, 'start of month')", $column),
+            TimeGrain::Quarterly => sprintf("DATE(%s, 'start of month', '-' || ((CAST(STRFTIME('%%m', %s) AS INTEGER) - 1) %% 3) || ' months')", $column, $column),
+            TimeGrain::Yearly => sprintf("DATE(%s, 'start of year')", $column),
         };
     }
 

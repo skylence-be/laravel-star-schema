@@ -21,19 +21,25 @@
         }
     ],
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
         "illuminate/contracts": "^11.0||^12.0",
         "illuminate/database": "^11.0||^12.0",
         "illuminate/support": "^11.0||^12.0",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
-        "laravel/pint": "^1.0",
+        "captainhook/captainhook": "^5.27",
+        "larastan/larastan": "^3.0",
+        "laravel/pint": "^1.14",
+        "nunomaduro/collision": "^8.8",
         "orchestra/testbench": "^9.0||^10.0",
         "pestphp/pest": "^3.0||^4.0",
+        "pestphp/pest-plugin-arch": "^3.0||^4.0",
         "pestphp/pest-plugin-laravel": "^3.0||^4.0",
-        "phpstan/phpstan": "^2.1",
-        "rector/rector": "^2.3"
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "rector/rector": "^2.0"
     },
     "autoload": {
         "psr-4": {
@@ -46,10 +52,20 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/pest",
-        "format": "vendor/bin/pint",
+        "post-autoload-dump": [
+            "@composer run prepare",
+            "@php vendor/bin/captainhook install --force --skip-existing --quiet || true"
+        ],
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
         "analyse": "vendor/bin/phpstan analyse",
-        "rector": "vendor/bin/rector process"
+        "rector": "vendor/bin/rector",
+        "lint": "vendor/bin/pint",
+        "test": "vendor/bin/pest --parallel --compact",
+        "test:rector": "vendor/bin/rector --dry-run",
+        "test:lint": "vendor/bin/pint --test --parallel",
+        "test:types": "vendor/bin/phpstan analyse",
+        "test:coverage": "vendor/bin/pest --coverage --min=50",
+        "format": "vendor/bin/pint"
     },
     "extra": {
         "laravel": {
@@ -61,8 +77,11 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
+        "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "captainhook/captainhook": true,
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
         }
     }
 }

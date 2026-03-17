@@ -39,16 +39,16 @@ final class AggregateFact
         $selectRaw = [];
         $selectRaw[] = $adapter->truncate($dateColumn, $grain).' as period_start';
 
-        foreach ($fact->dimensions() as $fk => $dimensionClass) {
+        foreach (array_keys($fact->dimensions()) as $fk) {
             $selectRaw[] = $fk;
         }
 
         foreach ($aggregations as $measure => $type) {
-            $selectRaw[] = $type->expression($measure)." as agg_{$measure}";
+            $selectRaw[] = $type->expression($measure).(' as agg_'.$measure);
         }
 
         $groupBy = [$adapter->truncate($dateColumn, $grain)];
-        foreach ($fact->dimensions() as $fk => $dimensionClass) {
+        foreach (array_keys($fact->dimensions()) as $fk) {
             $groupBy[] = $fk;
         }
 
@@ -72,11 +72,11 @@ final class AggregateFact
         foreach ($results as $row) {
             $measuresData = [];
             foreach (array_keys($aggregations) as $measure) {
-                $measuresData[$measure] = $row->{"agg_{$measure}"};
+                $measuresData[$measure] = $row->{'agg_'.$measure};
             }
 
             $dimensionsData = [];
-            foreach ($fact->dimensions() as $fk => $dimensionClass) {
+            foreach (array_keys($fact->dimensions()) as $fk) {
                 $dimensionsData[$fk] = $row->{$fk};
             }
 

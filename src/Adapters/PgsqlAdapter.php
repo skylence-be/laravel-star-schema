@@ -11,11 +11,11 @@ final class PgsqlAdapter implements DateAdapter
     public function truncate(string $column, TimeGrain $grain): string
     {
         return match ($grain) {
-            TimeGrain::Daily => "DATE_TRUNC('day', {$column})::date",
-            TimeGrain::Weekly => "DATE_TRUNC('week', {$column})::date",
-            TimeGrain::Monthly => "DATE_TRUNC('month', {$column})::date",
-            TimeGrain::Quarterly => "DATE_TRUNC('quarter', {$column})::date",
-            TimeGrain::Yearly => "DATE_TRUNC('year', {$column})::date",
+            TimeGrain::Daily => sprintf("DATE_TRUNC('day', %s)::date", $column),
+            TimeGrain::Weekly => sprintf("DATE_TRUNC('week', %s)::date", $column),
+            TimeGrain::Monthly => sprintf("DATE_TRUNC('month', %s)::date", $column),
+            TimeGrain::Quarterly => sprintf("DATE_TRUNC('quarter', %s)::date", $column),
+            TimeGrain::Yearly => sprintf("DATE_TRUNC('year', %s)::date", $column),
         };
     }
 

@@ -21,8 +21,6 @@ use Skylence\StarSchema\Services\StarSchemaRegistry;
 
 final class StarQuery
 {
-    private FactDefinition $fact;
-
     private CarbonImmutable $from;
 
     private CarbonImmutable $to;
@@ -37,12 +35,7 @@ final class StarQuery
 
     private bool $fillGaps = true;
 
-    private ?CarbonImmutable $now = null;
-
-    private function __construct(FactDefinition $fact)
-    {
-        $this->fact = $fact;
-    }
+    private function __construct(private readonly FactDefinition $fact) {}
 
     public static function fact(FactDefinition|string $fact): self
     {
@@ -57,20 +50,22 @@ final class StarQuery
     {
         [$from, $to] = $range->dates($now);
 
-        return self::fact($fact)->between($from, $to)->now($now);
+        return self::fact($fact)->between($from, $to);
+    }
+
+    public static function adapterFor(string $driver): DateAdapter
+    {
+        return match ($driver) {
+            'pgsql' => new PgsqlAdapter,
+            'sqlite' => new SqliteAdapter,
+            default => new MySqlAdapter,
+        };
     }
 
     public function between(CarbonImmutable $from, CarbonImmutable $to): self
     {
         $this->from = $from;
         $this->to = $to;
-
-        return $this;
-    }
-
-    public function now(?CarbonImmutable $now): self
-    {
-        $this->now = $now;
 
         return $this;
     }
@@ -203,7 +198,7 @@ final class StarQuery
             }
         }
 
-        $selects = [DB::raw("{$truncExpr} as period")];
+        $selects = [DB::raw($truncExpr.' as period')];
         $groups = [DB::raw($truncExpr)];
 
         foreach ($this->groupByDimensions as $dim) {
@@ -217,7 +212,7 @@ final class StarQuery
 
         $format = $adapter->carbonFormat($this->grain);
 
-        $mapped = $results->mapWithKeys(fn ($row) => [
+        $mapped = $results->mapWithKeys(fn ($row): array => [
             $row->period => new TrendValue(
                 date: $row->period,
                 value: $row->value ?? 0,
@@ -254,7 +249,7 @@ final class StarQuery
 
         $previousTotal = $prevQuery->scalar($measure, $type);
 
-        $growth = $previousTotal != 0
+        $growth = $previousTotal !== 0
             ? round(($currentTotal - $previousTotal) / $previousTotal * 100, 2)
             : null;
 
@@ -309,15 +304,6 @@ final class StarQuery
             TimeGrain::Monthly => CarbonPeriod::create($this->from->startOfMonth(), '1 month', $this->to->startOfMonth()),
             TimeGrain::Quarterly => CarbonPeriod::create($this->from->startOfQuarter(), '3 months', $this->to->startOfQuarter()),
             TimeGrain::Yearly => CarbonPeriod::create($this->from->startOfYear(), '1 year', $this->to->startOfYear()),
-        };
-    }
-
-    public static function adapterFor(string $driver): DateAdapter
-    {
-        return match ($driver) {
-            'pgsql' => new PgsqlAdapter,
-            'sqlite' => new SqliteAdapter,
-            default => new MySqlAdapter,
         };
     }
 }
